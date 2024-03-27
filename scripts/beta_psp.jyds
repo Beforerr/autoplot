@@ -1,0 +1,13 @@
+timerange='2019-04-01+through+2019-04-15'
+ds_temp = getDataSet('vap+cdaweb:ds=PSP_SWP_SPI_SF00_L3_MOM&id=TEMP[::4]', timerange)
+ds_n = getDataSet('vap+cdaweb:ds=PSP_SWP_SPI_SF00_L3_MOM&id=DENS[::4]', timerange)
+ds_B = getDataSet('vap+cdaweb:ds=PSP_SWP_SPI_SF00_L3_MOM&id=MAGF_SC[::4]', timerange)
+ds_B = synchronize( ds_n, ds_B)
+
+ds_b_mag = magnitude(ds_B)
+ds_p_mag = ds_b_mag * ds_b_mag
+ds_p_plasma = ds_n * ds_temp
+
+c = 0.40267091
+
+data = c * ds_p_plasma / ds_p_mag
